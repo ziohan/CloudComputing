@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Page introuvable{% endblock %}
+
+{% block content %}
+<section class="carte vide">
+    <h1>404</h1>
+    <p>Cette page n'existe pas (ou plus).</p>
+    <a class="btn btn-principal" href="{{ url_for('index') }}">Retour à l'accueil</a>
+</section>
+{% endblock %}

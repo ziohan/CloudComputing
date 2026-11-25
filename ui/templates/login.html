@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<section class="carte formulaire-carte">
+    <h1>Connexion</h1>
+
+    <form method="post" action="{{ url_for('login', next=request.args.get('next')) }}">
+        <label for="pseudo">Pseudo</label>
+        <input type="text" id="pseudo" name="pseudo" required autocomplete="username" autofocus>
+
+        <label for="mdp">Mot de passe</label>
+        <div class="champ-mdp">
+            <input type="password" id="mdp" name="mdp" required autocomplete="current-password">
+            <button type="button" class="lien-bouton" data-toggle-password="#mdp">Afficher</button>
+        </div>
+
+        <button type="submit" class="btn btn-principal btn-plein">Se connecter</button>
+    </form>
+
+    <p class="aide">Pas encore de compte ? <a href="{{ url_for('register') }}">Inscris-toi</a></p>
+</section>
+{% endblock %}

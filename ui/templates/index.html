@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Bienvenue sur Fil d'actualité</h1>
+    <p>Publie, like, commente et suis les personnes qui t'intéressent.</p>
+    <div class="hero-actions">
+        <a class="btn btn-principal" href="{{ url_for('register') }}">Créer un compte</a>
+        <a class="btn btn-secondaire" href="{{ url_for('login') }}">Se connecter</a>
+    </div>
+</section>
+
+<section class="grille-3" aria-label="Fonctionnalités">
+    <div class="carte">
+        <h2>Publier</h2>
+        <p>Partage un texte, une image, ou les deux.</p>
+    </div>
+    <div class="carte">
+        <h2>Réagir</h2>
+        <p>Like et commente les posts des autres.</p>
+    </div>
+    <div class="carte">
+        <h2>Suivre</h2>
+        <p>Abonne-toi pour construire ton fil d'actualité.</p>
+    </div>
+</section>
+{% endblock %}

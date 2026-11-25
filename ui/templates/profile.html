@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_post with context %}
+{% block title %}Mon profil{% endblock %}
+
+{% block content %}
+<h1>Mon profil</h1>
+
+<section class="carte profil">
+    <h2>@{{ user.pseudo }}</h2>
+    <p class="nom">{{ user.prenom }} {{ user.nom }}</p>
+
+    <dl class="statistiques">
+        <div>
+            <dt>Publications</dt>
+            <dd>{{ posts|length }}</dd>
+        </div>
+        <div>
+            <dt>Abonnements</dt>
+            <dd>{{ nb_abonnements }}</dd>
+        </div>
+        <div>
+            <dt>Abonnés</dt>
+            <dd>{{ nb_abonnes }}</dd>
+        </div>
+    </dl>
+
+    <form method="post" action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-secondaire">Se déconnecter</button>
+    </form>
+</section>
+
+<h2>Mes publications</h2>
+{% for p in posts %}
+    {{ carte_post(p) }}
+{% else %}
+    <div class="carte vide">
+        <p>Tu n'as encore rien publié.</p>
+    </div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_post with context %}
+{% block title %}Mon fil{% endblock %}
+
+{% block content %}
+<h1>Mon fil d'actualité</h1>
+
+<section class="carte" aria-labelledby="titre-nouveau-post">
+    <h2 id="titre-nouveau-post">Nouveau post</h2>
+    <form method="post" action="{{ url_for('nouveau_post') }}">
+        <label for="texte" class="sr-only">Texte du post</label>
+        <textarea id="texte" name="texte" rows="3" maxlength="{{ MAX_POST }}"
+                  data-max="{{ MAX_POST }}" data-compteur="#compteur-post"
+                  placeholder="Quoi de neuf ?"></textarea>
+        <p class="compteur" id="compteur-post" aria-live="polite">{{ MAX_POST }} caractères restants</p>
+
+        <label for="image_url">Image (adresse http:// ou https://, facultatif)</label>
+        <input type="url" id="image_url" name="image_url" placeholder="https://...">
+
+        <input type="hidden" name="next" value="{{ url_for('feed') }}">
+        <button type="submit" class="btn btn-principal">Publier</button>
+    </form>
+</section>
+
+{% if posts %}
+    <section aria-label="Posts">
+        {% for p in posts %}
+            {{ carte_post(p) }}
+        {% endfor %}
+    </section>
+{% else %}
+    <div class="carte vide">
+        <p>Ton fil est vide pour le moment.</p>
+        <p>Publie un premier post ou <a href="{{ url_for('rechercher') }}">cherche des personnes à suivre</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Erreur{% endblock %}
+
+{% block content %}
+<section class="carte vide">
+    <h1>Oups</h1>
+    <p>{{ message }}</p>
+    <div class=""hero-actions">
+        {% if request.method == 'GET' %}
+            <a class="btn btn-principal" href="{{ current_url }}">
+                Réessayer</a>
+        {% elif session.get('token') %}
+                <a class="btn btn-principal" href="{{ url_for('feed') }}">
+                    Retour au fil
+                </a>
+        {% endif %}
+
+        {% if session.get('token') %}
+                <form method="post" action="{{ url_for('logout') }}" class="form-inline">
+                    <button type="submit" class="btn btn-secondaire">Se déconnecter</button>
+                </form>
+        {% else %}
+                <a class="btn btn-secondaire" href="{{ url_for('index') }}">Acceuil</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

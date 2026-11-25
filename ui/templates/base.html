@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Accueil{% endblock %} · Fil d'actualité</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+    <header class="entete">
+        <div class="conteneur entete-contenu">
+            <a class="logo" href="{{ url_for('index') }}">Fil d'actualité</a>
+
+            <button type="button" id="menu-toggle" class="menu-toggle"
+                    aria-expanded="false" aria-controls="menu">Menu</button>
+
+            <nav id="menu" class="menu" aria-label="Navigation principale">
+                {% if session.get('token') %}
+                    <a href="{{ url_for('feed') }}">Fil</a>
+                    <a href="{{ url_for('rechercher') }}">Recherche</a>
+                    <a href="{{ url_for('profile') }}">@{{ session.get('pseudo') }}</a>
+                    <form method="post" action="{{ url_for('logout') }}" class="form-inline">
+                        <button type="submit" class="lien-bouton">Déconnexion</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Connexion</a>
+                    <a href="{{ url_for('register') }}">Inscription</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="conteneur messages" role="status">
+            {% for categorie, message in messages %}
+                <div class="message message-{{ categorie }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="conteneur contenu">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="pied">
+        <div class="conteneur">Projet Cloud · réseau social en microservices</div>
+    </footer>
+</body>
+</html>

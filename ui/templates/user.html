@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_post, bouton_suivre with context %}
+{% block title %}@{{ user.pseudo }}{% endblock %}
+
+{% block content %}
+<section class="carte profil">
+    <h1>@{{ user.pseudo }}</h1>
+    <p class="nom">{{ user.prenom }} {{ user.nom }}</p>
+    {{ bouton_suivre(user.id, suivi) }}
+</section>
+
+<h2>Publications</h2>
+{% for p in posts %}
+    {{ carte_post(p) }}
+{% else %}
+    <div class="carte vide">
+        <p>@{{ user.pseudo }} n'a encore rien publié.</p>
+    </div>
+{% endfor %}
+{% endblock %}

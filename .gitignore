@@ -1,0 +1,19 @@
+#environnement virtuels
+venv/
+.venv/
+
+#Python
+__pycache__/
+*.__pycache__
+
+#Base de données SQLite
+*.db
+
+#Secrets et configurations locale
+.environnement
+
+#Editeur / système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

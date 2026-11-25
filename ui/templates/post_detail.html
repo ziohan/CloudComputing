@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "_macros.html" import carte_post with context %}
+{% block title %}Post de @{{ post.auteur_pseudo }}{% endblock %}
+
+{% block content %}
+<p><a href="{{ url_for('feed') }}">&larr; Retour au fil</a></p>
+
+{{ carte_post(post) }}
+
+<section class="carte" aria-labelledby="titre-commentaires">
+    <h2 id="titre-commentaires">Commentaires ({{ commentaires|length }})</h2>
+
+    {% for c in commentaires %}
+        <div class="commentaire">
+            <div class="commentaire-entete">
+                <a class="auteur" href="{{ url_for('user_page', user_id=c.user_id) }}">@{{ c.pseudo }}</a>
+                <time datetime="{{ c.created_at }}">{{ c.created_at|datefr }}</time>
+            </div>
+            <p>{{ c.texte }}</p>
+        </div>
+    {% else %}
+        <p class="vide">Aucun commentaire pour le moment.</p>
+    {% endfor %}
+
+    <form method="post" action="{{ url_for('commenter', post_id=post.id) }}" class="form-commentaire">
+        <label for="commentaire" class="sr-only">Ton commentaire</label>
+        <textarea id="commentaire" name="texte" rows="2" maxlength="{{ MAX_COMMENTAIRE }}"
+                  data-max="{{ MAX_COMMENTAIRE }}" data-compteur="#compteur-commentaire"
+                  placeholder="Écris un commentaire..." required></textarea>
+        <p class="compteur" id="compteur-commentaire" aria-live="polite">{{ MAX_COMMENTAIRE }} caractères restants</p>
+        <button type="submit" class="btn btn-principal">Commenter</button>
+    </form>
+</section>
+{% endblock %}

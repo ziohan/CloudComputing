@@ -1,0 +1,44 @@
+{# Importer avec : {% from "_macros.html" import carte_post, bouton_suivre with context %} #}
+
+{% macro carte_post(p) %}
+<article class="carte post" id="post-{{ p.id }}">
+    <header class="post-entete">
+        <a class="auteur" href="{{ url_for('user_page', user_id=p.auteur_id) }}">@{{ p.auteur_pseudo }}</a>
+        <time datetime="{{ p.created_at }}">{{ p.created_at|datefr }}</time>
+    </header>
+
+    {% if p.texte %}
+        <p class="post-texte">{{ p.texte }}</p>
+    {% endif %}
+
+    {% if p.image_url and p.image_url.startswith(('http://', 'https://')) %}
+        <img class="post-image" src="{{ p.image_url }}"
+             alt="Image publiée par {{ p.auteur_pseudo }}" loading="lazy">
+    {% endif %}
+
+    <footer class="post-actions">
+        <form method="post" action="{{ url_for('liker', post_id=p.id) }}" class="form-inline">
+            <input type="hidden" name="liked" value="{{ 1 if p.like_par_moi else 0 }}">
+            <input type="hidden" name="next" value="{{ current_url }}">
+            <button type="submit" class="btn-like {{ 'actif' if p.like_par_moi }}"
+                    aria-pressed="{{ 'true' if p.like_par_moi else 'false' }}"
+                    aria-label="{{ 'Retirer mon like' if p.like_par_moi else 'Liker ce post' }}">
+                {{ '♥' if p.like_par_moi else '♡' }} <span>{{ p.nb_likes }}</span>
+            </button>
+        </form>
+        <a class="lien-commentaires" href="{{ url_for('post_detail', post_id=p.id) }}">
+            Commentaires ({{ p.nb_commentaires }})
+        </a>
+    </footer>
+</article>
+{% endmacro %}
+
+{% macro bouton_suivre(user_id, suivi) %}
+<form method="post" action="{{ url_for('suivre', user_id=user_id) }}" class="form-inline">
+    <input type="hidden" name="action" value="{{ 'unfollow' if suivi else 'follow' }}">
+    <input type="hidden" name="next" value="{{ current_url }}">
+    <button type="submit" class="btn {{ 'btn-secondaire' if suivi else 'btn-principal' }}">
+        {{ 'Se désabonner' if suivi else "S'abonner" }}
+    </button>
+</form>
+{% endmacro %}

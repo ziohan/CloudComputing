@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "_macros.html" import bouton_suivre with context %}
+{% block title %}Recherche{% endblock %}
+
+{% block content %}
+<h1>Rechercher des personnes</h1>
+
+<form method="get" action="{{ url_for('rechercher') }}" class="form-recherche" role="search">
+    <label for="q" class="sr-only">Pseudo</label>
+    <input type="search" id="q" name="q" value="{{ q }}" placeholder="Pseudo..." autofocus>
+    <button type="submit" class="btn btn-principal">Rechercher</button>
+</form>
+
+{% if not q %}
+    <p class="aide">Saisis un pseudo (ou une partie) pour trouver des personnes à suivre.</p>
+{% elif resultats %}
+    <ul class="liste-utilisateurs">
+        {% for u in resultats %}
+            <li class="carte utilisateur">
+                <div>
+                    <a class="auteur" href="{{ url_for('user_page', user_id=u.id) }}">@{{ u.pseudo }}</a>
+                    <span class="nom">{{ u.prenom }} {{ u.nom }}</span>
+                </div>
+                {{ bouton_suivre(u.id, u.suivi_par_moi) }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="carte vide">
+        <p>Aucun résultat pour « {{ q }} ».</p>
+    </div>
+{% endif %}
+{% endblock %}

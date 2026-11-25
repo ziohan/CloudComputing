@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<section class="carte formulaire-carte">
+    <h1>Inscription</h1>
+
+    <form method="post" action="{{ url_for('register') }}" id="form-inscription">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom" value="{{ form.get('prenom', '') }}"
+               required autocomplete="given-name">
+
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="nom" value="{{ form.get('nom', '') }}"
+               required autocomplete="family-name">
+
+        <label for="pseudo">Pseudo</label>
+        <input type="text" id="pseudo" name="pseudo" value="{{ form.get('pseudo', '') }}"
+               required autocomplete="username">
+
+        <label for="mdp">Mot de passe ({{ MDP_MIN }} caractères minimum)</label>
+        <div class="champ-mdp">
+            <input type="password" id="mdp" name="mdp" required minlength="{{ MDP_MIN }}"
+                   autocomplete="new-password">
+            <button type="button" class="lien-bouton" data-toggle-password="#mdp">Afficher</button>
+        </div>
+
+        <label for="mdp2">Confirmer le mot de passe</label>
+        <input type="password" id="mdp2" name="mdp2" required minlength="{{ MDP_MIN }}"
+               autocomplete="new-password">
+        <p class="erreur-champ" id="erreur-mdp" hidden>Les mots de passe ne correspondent pas.</p>
+
+        <button type="submit" class="btn btn-principal btn-plein">Créer mon compte</button>
+    </form>
+
+    <p class="aide">Déjà inscrit ? <a href="{{ url_for('login') }}">Connecte-toi</a></p>
+</section>
+{% endblock %}
