@@ -38,6 +38,7 @@ def init_db():
             post_id INTEGER NOT NULL,
             user_id INTEGER NOT NULL,
             pseudo TEXT NOT NULL,
+            texte TEXT NOT NULL,
             created_at TEXT NOT NULL
         );
 
@@ -108,7 +109,7 @@ def commentaire_to_dict(row):
         "id": row["id"],
         "post_id": row["post_id"],
         "user_id": row["user_id"],
-        "pseudo": row["pseudo_id"],
+        "pseudo": row["pseudo"],
         "texte": row["texte"],
         "creates_at": row["created_at"],
     }
